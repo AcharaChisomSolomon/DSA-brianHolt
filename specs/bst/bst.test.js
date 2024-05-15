@@ -21,6 +21,10 @@ class Tree {
     this.root = null;
   }
 
+  toObject() {
+    return this.root;
+  }
+
   add(value) {
     if (!this.root) {
       this.root = new Node(value);
@@ -30,14 +34,12 @@ class Tree {
         if (value < currentNode.value) {
           if (!currentNode.left) {
             currentNode.left = new Node(value);
-            console.log(this.root);
             return;
           }
           currentNode = currentNode.left;
         } else {
           if (!currentNode.right) {
             currentNode.right = new Node(value);
-            console.log(this.root);
             return;
           }
           currentNode = currentNode.right;
@@ -63,7 +65,7 @@ describe("Binary Search Tree", function () {
     const nums = [3, 7, 4, 6, 5, 1, 10, 2, 9, 8];
     const tree = new Tree();
     nums.map((num) => tree.add(num));
-    const objs = tree.root;
+    const objs = tree.toObject();
     // render(objs, nums);
 
     expect(objs.value).toEqual(3);

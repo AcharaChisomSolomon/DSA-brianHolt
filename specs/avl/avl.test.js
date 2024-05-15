@@ -22,11 +22,40 @@
 */
 
 class Tree {
-  // code goes here
+  constructor() {
+    this.root = null;
+  }
+
+  toObject() {
+    return this.root;
+  }
+
+  add(value) {
+    if (!this.root) {
+      this.root = new Node(value);
+    } else {
+      this.root.add(value);
+    }
+  }
 }
 
 class Node {
-  // code also goes here
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+    this.height = 1;
+  }
+
+  add() {}
+
+  balance() {}
+
+  rotateLL() {}
+
+  rotateRR() {}
+
+  updateHeightInNewLocation() {}
 }
 
 // unit tests
