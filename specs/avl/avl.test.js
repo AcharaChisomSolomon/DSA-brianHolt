@@ -47,20 +47,97 @@ class Node {
     this.height = 1;
   }
 
-  add() {}
+  add(value) {
+    if (value < this.value) {
+      if (!this.left) {
+        this.left = new Node(value);
+      } else {
+        this.left.add(value);
+      }
 
-  balance() {}
+      if (!this.right || this.left.height >= this.right.height) {
+        this.height = this.left.height + 1;
+      }
+    } else {
+      if (!this.right) {
+        this.right = new Node(value);
+      } else {
+        this.right.add(value);
+      }
 
-  rotateLL() {}
+      if (!this.left || this.right.height >= this.left.height) {
+        this.height = this.right.height + 1;
+      }
+    }
+    this.balance();
+  }
 
-  rotateRR() {}
+  balance() {
+    const rightHeight = this.right ? this.right.height : 0;
+    const leftHeight = this.left ? this.left.height : 0;
 
-  updateHeightInNewLocation() {}
+    if (leftHeight > rightHeight + 1) {
+      const leftRightHeight = this.left.right ? this.left.right.height : 0;
+      const leftLeftHeight = this.left.left ? this.left.left.height : 0;
+
+      if (leftRightHeight > leftLeftHeight) {
+        this.left.rotateRR();
+      }
+      this.rotateLL();
+    } else if (rightHeight > leftHeight + 1) {
+      const rightLeftHeight = this.right.left ? this.right.left.height : 0;
+      const rightRightHeight = this.right.right ? this.right.right.height : 0;
+
+      if (rightLeftHeight > rightRightHeight) {
+        this.right.rotateLL();
+      }
+      this.rotateRR();
+    }
+  }
+
+  rotateLL() {
+    const valueBefore = this.value;
+    const rightBefore = this.right;
+    this.value = this.left.value;
+    this.right = this.left;
+    this.left = this.left.left;
+    this.right.left = this.right.right;
+    this.right.right = rightBefore;
+    this.right.value = valueBefore;
+    this.right.updateHeightInNewLocation();
+    this.updateHeightInNewLocation();
+  }
+
+  rotateRR() {
+    const valueBefore = this.value;
+    const leftBefore = this.left;
+    this.value = this.right.value;
+    this.left = this.right;
+    this.right = this.right.right;
+    this.left.right = this.left.left;
+    this.left.left = leftBefore;
+    this.left.value = valueBefore;
+    this.left.updateHeightInNewLocation();
+    this.updateHeightInNewLocation();
+  }
+
+  updateHeightInNewLocation() {
+    if (!this.left && !this.right) {
+      this.height = 1;
+    } else if (
+      !this.right ||
+      (this.left && this.left.height >= this.right.height)
+    ) {
+      this.height = this.left.height + 1;
+    } else {
+      this.height = this.right.height + 1;
+    }
+  }
 }
 
 // unit tests
 // do not modify the below code
-describe.skip("AVL Tree", function () {
+describe("AVL Tree", function () {
   test("creates a correct tree", () => {
     const nums = [3, 7, 4, 6, 5, 1, 10, 2, 9, 8];
     const tree = new Tree();
