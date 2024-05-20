@@ -26,12 +26,48 @@
 const { getUser } = require("./jobs");
 
 const findMostCommonTitle = (myId, degreesOfSeparation) => {
-  // code goes here
+  let queue = [];
+  const dequeued = new Set();
+  const titleObj = {};
+  let mostCommon = "";
+  queue.push(myId);
+  let i = 0;
+
+  while (i <= degreesOfSeparation) {
+    const queueLength = queue.length;
+
+    for (let j = 0; j < queueLength; j++) {
+      const currentUserId = queue.shift();
+      const currentUser = getUser(currentUserId);
+      queue = queue.concat(currentUser.connections);
+
+      if (!dequeued.has(currentUserId)) {
+        if (titleObj[currentUser.title]) {
+          titleObj[currentUser.title] += 1;
+        } else {
+          titleObj[currentUser.title] = 1;
+        }
+
+        if (
+          !titleObj[mostCommon] ||
+          titleObj[currentUser.title] > titleObj[mostCommon]
+        ) {
+          mostCommon = currentUser.title;
+        }
+
+        dequeued.add(currentUserId);
+      }
+    }
+
+    i++;
+  }
+
+  return mostCommon;
 };
 
 // unit tests
 // do not modify the below code
-test.skip("findMostCommonTitle", function () {
+describe("findMostCommonTitle", function () {
   // the getUser function and data comes from this CodePen: https://codepen.io/btholt/pen/NXJGwa?editors=0010
   test("user 30 with 2 degrees of separation", () => {
     expect(findMostCommonTitle(30, 2)).toBe("Librarian");
