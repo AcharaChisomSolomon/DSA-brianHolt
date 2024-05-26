@@ -14,34 +14,43 @@ const h3 = (string) =>
 // `contains` takes a string and tells you if a string is maybe in the bloom filter
 class BloomFilter {
   // you'll probably need some instance variables
+  constructor() {
+    this.arr = new Array(100).fill(0);
+  }
   add(string) {
-    // code here
+    this.arr[h1(string)] = 1;
+    this.arr[h2(string)] = 1;
+    this.arr[h3(string)] = 1;
   }
   contains(string) {
-    // code here
+    return !!(
+      this.arr[h1(string)] &&
+      this.arr[h2(string)] &&
+      this.arr[h3(string)]
+    );
   }
 }
 
 // unit tests
 // do not modify the below code
-describe.skip("BloomFilter", function () {
+describe("BloomFilter", function () {
   let bf;
   beforeEach(() => {
     bf = new BloomFilter();
   });
-  test.skip("returns false when empty", () => {
+  test("returns false when empty", () => {
     expect(bf.contains("Brian")).toBe(false);
     expect(bf.contains("Sarah")).toBe(false);
     expect(bf.contains("Simona")).toBe(false);
   });
-  test.skip("handles one item", () => {
+  test("handles one item", () => {
     expect(bf.contains("Brian")).toBe(false);
     bf.add("Brian");
     expect(bf.contains("Brian")).toBe(true);
     expect(bf.contains("Sarah")).toBe(false);
     expect(bf.contains("Simona")).toBe(false);
   });
-  test.skip("handles many items", () => {
+  test("handles many items", () => {
     const names = [
       "Brian",
       "Simona",
@@ -51,12 +60,12 @@ describe.skip("BloomFilter", function () {
       "Sean",
       "Jessie",
       "Paige",
-      "Ashley"
+      "Ashley",
     ];
     names.forEach((item) => bf.add(item));
     names.forEach((item) => expect(bf.contains(item)).toBe(true));
     ["Sam", "Chris", "Taylor", "Florence"].forEach((item) =>
-      expect(bf.contains(item)).toBe(false)
+      expect(bf.contains(item)).toBe(false),
     );
   });
 });

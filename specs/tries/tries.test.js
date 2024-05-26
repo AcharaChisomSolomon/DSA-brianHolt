@@ -39,7 +39,7 @@ describe.skip("tries", function () {
     expect(completions.length).toBe(3);
     expect(
       _.intersection(completions, ["san antonio", "san diego", "san jose"])
-        .length
+        .length,
     ).toBe(3);
   });
 
@@ -55,7 +55,7 @@ describe.skip("tries", function () {
     const completions = root.complete("d");
     expect(completions.length).toBe(3);
     expect(
-      _.intersection(completions, ["dallas", "detroit", "denver"]).length
+      _.intersection(completions, ["dallas", "detroit", "denver"]).length,
     ).toBe(3);
   });
 
@@ -69,8 +69,8 @@ describe.skip("tries", function () {
         "new orleans",
         "new haven",
         "newark",
-        "newport news"
-      ]).length
+        "newport news",
+      ]).length,
     ).toBe(3);
   });
 
@@ -79,7 +79,7 @@ describe.skip("tries", function () {
     const completions = root.complete("bo");
     expect(completions.length).toBe(2);
     expect(_.intersection(completions, ["boston", "boise city"]).length).toBe(
-      2
+      2,
     );
   });
 
@@ -88,7 +88,8 @@ describe.skip("tries", function () {
     const completions = root.complete("sal");
     expect(completions.length).toBe(3);
     expect(
-      _.intersection(completions, ["salt lake city", "salem", "salinas"]).length
+      _.intersection(completions, ["salt lake city", "salem", "salinas"])
+        .length,
     ).toBe(3);
   });
 
@@ -127,8 +128,8 @@ describe.skip("tries", function () {
         "santee",
         "sandy",
         "sandy springs",
-        "sanford"
-      ]).length
+        "sanford",
+      ]).length,
     ).toBe(3);
   });
 });
